@@ -23,7 +23,7 @@ pub enum SecurityScheme {
     #[serde(rename = "http")]
     HTTP {
         scheme: String,
-        #[serde(rename = "bearerFormat")]
+        #[serde(rename = "bearerFormat", skip_serializing_if = "Option::is_none")]
         bearer_format: Option<String>,
         #[serde(skip_serializing_if = "Option::is_none")]
         description: Option<String>,
@@ -79,12 +79,14 @@ pub enum OAuth2Flow {
     #[serde(rename_all = "camelCase")]
     Implicit {
         authorization_url: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
         refresh_url: Option<String>,
         #[serde(default)]
         scopes: IndexMap<String, String>,
     },
     #[serde(rename_all = "camelCase")]
     Password {
+        #[serde(skip_serializing_if = "Option::is_none")]
         refresh_url: Option<String>,
         token_url: String,
         #[serde(default)]
@@ -92,6 +94,7 @@ pub enum OAuth2Flow {
     },
     #[serde(rename_all = "camelCase")]
     ClientCredentials {
+        #[serde(skip_serializing_if = "Option::is_none")]
         refresh_url: Option<String>,
         token_url: String,
         #[serde(default)]
@@ -101,6 +104,7 @@ pub enum OAuth2Flow {
     AuthorizationCode {
         authorization_url: String,
         token_url: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
         refresh_url: Option<String>,
         #[serde(default)]
         scopes: IndexMap<String, String>,
